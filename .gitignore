@@ -1,0 +1,12 @@
+*.pyc
+__pycache__/*
+**/.idea/workspace.xml
+**/.idea/tasks.xml
+*.log.DS_Store
+venv/
+*.log
+.idea/
+**/stsb-xlm-r-multilingual/
+**/myers_model.pt
+**/mbti_model.pt
+test/
