@@ -10,8 +10,7 @@ services:
         build:
             context: ./master
             dockerfile: Dockerfile
-        image: master_image
-        container_name: master_container
+        image: pic_master_image
         restart: always
         environment:
             - redis_server_ip=redis
@@ -26,8 +25,7 @@ services:
         build:
             context: ./worker_test
             dockerfile: Dockerfile
-        image: worker_test_image
-        container_name: worker_test_container
+        image: worker_image
         restart: always
         environment:
             - task_name=img_filter
