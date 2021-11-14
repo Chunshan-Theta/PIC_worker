@@ -48,7 +48,7 @@ class GetArchives(RequestHandler):
         description:
             "
             curl -X POST \
-            http://127.0.0.1:10050/receive_img \
+            http://127.0.0.1:8082/receive_img \
             -H 'cache-control: no-cache' \
             -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
             -F images=@178884.jpg \

@@ -18,7 +18,7 @@ services:
         depends_on:
           - redis
         ports:
-          - "10050:10050"
+          - "8082:10050"
 
     worker_test:
         build:
