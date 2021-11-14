@@ -4,12 +4,13 @@ import aredis
 
 # import asyncio
 import json
-
+import os
+redis_server_ip = os.getenv("redis_server_ip", "host")
 
 class NLUQueue(object):
     def __init__(self, name, namespace='queue', **redis_kwargs):
         # redis的默认参数为：host='localhost', port=6379, db=0， 其中db为定义redis database的数量
-        redis_kwargs["host"] = "redis"
+        redis_kwargs["host"] = redis_server_ip
         self.__client = aredis.StrictRedis(**redis_kwargs)
         self.key = '%s:%s' % (namespace, name)
 
