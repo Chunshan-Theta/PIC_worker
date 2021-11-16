@@ -1,11 +1,11 @@
 version: "3.7"
 services:
-#    redis:
-#        image: redis
-#        volumes:
-#            - ./redis_server/redis.conf:/usr/local/etc/redis/redis.conf
-#        ports:
-#            - "6379:6379"
+    redis:
+        image: redis
+        volumes:
+            - ./redis_server/redis.conf:/usr/local/etc/redis/redis.conf
+        ports:
+            - "6379:6379"
     master:
         build:
             context: ./master
@@ -16,8 +16,8 @@ services:
             - redis_server_ip=redis
         volumes:
           - "./LocalStorage/master:/app/LocalStorage"
-#        depends_on:
-#          - redis
+        depends_on:
+          - redis
         ports:
           - "8082:10050"
 
@@ -32,6 +32,6 @@ services:
             - redis_server_ip=redis
         volumes:
             - "./LocalStorage/worker:/app/LocalStorage"
-#        depends_on:
-#            - redis
+        depends_on:
+            - redis
 
