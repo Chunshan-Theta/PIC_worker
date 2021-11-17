@@ -19,7 +19,7 @@ class GetArchives(RequestHandler):
                                                         "X-File-Name, Cache-Control, Token")
         self.set_header('Access-Control-Allow-Origin', '*')
         if r_type == "jpg" :
-            self.set_header('Content-Type', 'image/jpg')
+            self.set_header('Content-Type', 'image/jpeg')
 
         self.finish(data)
     def image_to_byte_array(self, image: Image):
