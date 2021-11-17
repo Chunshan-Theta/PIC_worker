@@ -6,12 +6,22 @@ from util.aredis_queue import QueueRequestTask
 import asyncio
 from util.text_cuter import lcut
 from util.text_cleaner import del_html_tags, del_space
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 import io
 import base64
 
 
 class GetArchives(RequestHandler):
+    def respond_to_client(self, data, r_type=None):
+        self.set_header("Access-Content-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS")
+        self.set_header("Access-Control-Allow-Headers", "Content-Type, Depth, User-Agent, X-File-Size, "
+                                                        "X-Requested-With, X-Requested-By, If-Modified-Since, "
+                                                        "X-File-Name, Cache-Control, Token")
+        self.set_header('Access-Control-Allow-Origin', '*')
+        if r_type == "jpg" :
+            self.set_header('Content-Type', 'image/jpg')
+
+        self.finish(data)
     def image_to_byte_array(self, image: Image):
         imgByteArr = io.BytesIO()
         image.save(imgByteArr, format=image.format)
@@ -79,41 +89,49 @@ class GetArchives(RequestHandler):
 
         image_data = data['Content_body']
 
-
+        max_size = 720
         image_data = io.BytesIO(image_data)
-        image = Image.open(image_data)
-        width, height = image.size
-        if width > 1280 and width > height:
-            image = image.resize((1280, int(height*1280/width)))
-        elif height > 1280 and height > width:
-            image = image.resize((int(width*1280/height), 1280))
+        try:
+            image = Image.open(image_data)
 
-        # b64_image = self.im_2_b64(image)
-        # image = self.b64_2_img(b64_image)
-        # img_str = self.image_to_byte_array(image)
-        # self.finish(img_str)
 
-        Task = QueueRequestTask(data={
-            "img_base64": str(self.im_2_b64(image), "utf-8")
-        }, task_type_label="img_filter")
+            width, height = image.size
+            if width > max_size and width > height:
+                image = image.resize((max_size, int(height*max_size/width)))
+            elif height > max_size and height > width:
+                image = image.resize((int(width*max_size/height), max_size))
 
-        #
-        await Task.to_worker()
+            # b64_image = self.im_2_b64(image)
+            # image = self.b64_2_img(b64_image)
+            # img_str = self.image_to_byte_array(image)
+            # self.finish(img_str)
 
-        #
-        worker_response = await Task.get_content()
-        time = 0
-        while worker_response is None and time < 500:
+            Task = QueueRequestTask(data={
+                "img_base64": str(self.im_2_b64(image), "utf-8")
+            }, task_type_label="img_filter")
+
+            #
+            await Task.to_worker()
+
+            #
             worker_response = await Task.get_content()
-            time += 1
-            await asyncio.sleep(0.1)
-        else:
-            b64_image = json.loads(worker_response)["img_base64"]
-            b64_image = b64_image.encode("utf-8")
-            image = self.b64_2_img(b64_image)
-            img_str = self.image_to_byte_array(image)
-            await self.finish(img_str)
+            time = 0
+            while worker_response is None and time < 500:
+                worker_response = await Task.get_content()
+                time += 1
+                await asyncio.sleep(0.1)
+            else:
+                b64_image = json.loads(worker_response)["img_base64"]
+                b64_image = b64_image.encode("utf-8")
+                image = self.b64_2_img(b64_image)
+                img_str = self.image_to_byte_array(image)
+                self.respond_to_client(img_str,r_type="jpg")
 
+        except UnidentifiedImageError as e:
+            self.respond_to_client(json.dumps({
+                "error": "圖片格式錯誤(目前檔名不能有中文, 只接受jpg圖檔)",
+                "detail": str(e)
+            },ensure_ascii=False))
 #
 # class cutHandler(APIHandlerBase):
 #
