@@ -9,7 +9,7 @@ sudo docker-compose up -d
 
 ### Swagger
 ```commandline
-http://127.0.0.1:8082/api/doc/
+http://127.0.0.1:8082/docs/
 ```
 
 # api

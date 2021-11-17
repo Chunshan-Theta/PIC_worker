@@ -1,7 +1,7 @@
 #FROM python:3.7.3-alpine
 FROM  python:3.7
 
-EXPOSE 10050
+# EXPOSE 10050
 
 
 WORKDIR /app
@@ -12,6 +12,6 @@ RUN pip install -r requirements.txt
 # RUN apt-get update
 #RUN apt-get install vim -y
 
-#CMD ["python", "server.py"]
-CMD /bin/bash
+# CMD ["python", "server.py"]
+# CMD /bin/bash
 CMD python3 server.py
