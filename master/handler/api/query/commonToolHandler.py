@@ -82,6 +82,12 @@ class GetArchives(RequestHandler):
 
         image_data = io.BytesIO(image_data)
         image = Image.open(image_data)
+        width, height = image.size
+        if width > 1280 and width > height:
+            image = image.resize((1280, int(height*1280/width)))
+        elif height > 1280 and height > width:
+            image = image.resize((int(width*1280/height), 1280))
+
         # b64_image = self.im_2_b64(image)
         # image = self.b64_2_img(b64_image)
         # img_str = self.image_to_byte_array(image)

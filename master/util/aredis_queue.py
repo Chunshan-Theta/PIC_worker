@@ -5,7 +5,7 @@ import aredis
 # import asyncio
 import json
 import os
-redis_server_ip = os.getenv("redis_server_ip", "redis")
+redis_server_ip = os.getenv("redis_server_ip", "35.234.38.228")
 
 class NLUQueue(object):
     def __init__(self, name, namespace='queue', **redis_kwargs):

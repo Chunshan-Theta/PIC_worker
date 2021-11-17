@@ -14,7 +14,7 @@ now_model = "face_paint_512_v2"
 model = torch.hub.load("bryandlee/animegan2-pytorch:main", "generator", pretrained=now_model)
 
 
-def draw_pic(img, draw_type:str="face_paint_512_v1"):
+def draw_pic(img, draw_type:str="face_paint_512_v2"):
     print(f"draw......")
     global now_model, model
     if now_model != draw_type:
