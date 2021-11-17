@@ -10,11 +10,11 @@ from PIL import Image
 # img = torch.unsqueeze(img,0)
 
 pretrained_options = ["celeba_distill", "face_paint_512_v1", "face_paint_512_v2", "paprika"]
-now_model = "face_paint_512_v2"
+now_model = "face_paint_512_v1"
 model = torch.hub.load("bryandlee/animegan2-pytorch:main", "generator", pretrained=now_model)
 
 
-def draw_pic(img, draw_type:str="face_paint_512_v2"):
+def draw_pic(img, draw_type:str="face_paint_512_v1"):
     print(f"draw......")
     global now_model, model
     if now_model != draw_type:
