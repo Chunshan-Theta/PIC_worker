@@ -133,15 +133,16 @@ class GetArchives(RequestHandler):
                 "detail": str(e)
             },ensure_ascii=False))
 #
-class dotsHandler(APIHandlerBase):
+class dotsHandler(RequestHandler):
 
     async def post(self):
         """
         ---
         tags:
         - tool
-        summary: 斷詞
-        description: 斷詞
+        summary: 取得個別故事之使用者分佈
+
+        description: 取得個別故事之使用者分佈
         produces:
         - application/json
         parameters:
