@@ -1,11 +1,11 @@
 version: "3.7"
 services:
-    redis:
-        image: redis
-        volumes:
-            - ./redis_server/redis.conf:/usr/local/etc/redis/redis.conf
-        ports:
-            - "6379:6379"
+#    redis:
+#        image: redis
+#        volumes:
+#            - ./redis_server/redis.conf:/usr/local/etc/redis/redis.conf
+#        ports:
+#            - "6379:6379"
     master:
         build:
             context: ./master
