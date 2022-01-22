@@ -1,7 +1,7 @@
 import json
 
 from tornado.web import RequestHandler
-
+from ..apiHandlerBase import APIHandlerBase
 from util.aredis_queue import QueueRequestTask
 import asyncio
 from util.text_cuter import lcut
@@ -133,7 +133,7 @@ class GetArchives(RequestHandler):
                 "detail": str(e)
             },ensure_ascii=False))
 #
-class dotsHandler(RequestHandler):
+class dotsHandler(APIHandlerBase):
 
     async def post(self):
         """
