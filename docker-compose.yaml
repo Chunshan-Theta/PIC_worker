@@ -21,17 +21,17 @@ services:
         ports:
           - "8082:10050"
 
-    worker_test:
-        build:
-            context: ./worker_test
-            dockerfile: Dockerfile
-        image: worker_image
-        restart: always
-        environment:
-            - task_name=img_filter
-            - redis_server_ip=redis
-        volumes:
-            - "./LocalStorage/worker:/app/LocalStorage"
-        depends_on:
-            - redis
+#    worker_test:
+#        build:
+#            context: ./worker_test
+#            dockerfile: Dockerfile
+#        image: worker_image
+#        restart: always
+#        environment:
+#            - task_name=img_filter
+#            - redis_server_ip=redis
+#        volumes:
+#            - "./LocalStorage/worker:/app/LocalStorage"
+#        depends_on:
+#            - redis
 

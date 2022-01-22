@@ -2,14 +2,15 @@ import os
 
 import tornado.web
 from tornado_swagger.setup import setup_swagger
-from handler.api.query.commonToolHandler import GetArchives
+from handler.api.query.commonToolHandler import GetArchives,dotsHandler
 api_base_url = os.getenv("nginx_proxy_path", "/")
 proxy_type = os.getenv("proxy_type", "http")
 
 
 class Application(tornado.web.Application):
     _routes = [
-        tornado.web.url(r"/receive_img", GetArchives),
+        # tornado.web.url(r"/receive_img", GetArchives),
+        tornado.web.url(r"/dots", dotsHandler),
     ]
 
     def __init__(self, **settings):
