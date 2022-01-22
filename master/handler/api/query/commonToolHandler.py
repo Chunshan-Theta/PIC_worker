@@ -4,8 +4,7 @@ from tornado.web import RequestHandler
 from ..apiHandlerBase import APIHandlerBase
 from util.aredis_queue import QueueRequestTask
 import asyncio
-from util.text_cuter import lcut
-from util.text_cleaner import del_html_tags, del_space
+from util.dot_data import get_templete_dots, get_dots
 from PIL import Image, UnidentifiedImageError
 import io
 import base64
@@ -156,24 +155,23 @@ class dotsHandler(APIHandlerBase):
                     story_id:
                         type: string
                         default: "1001"
+                    dimension_num:
+                        type: int
+                        default: 2
 
         responses:
             200:
               description: test
         """
         body = json.loads(self.request.body)
-        content = body.get("story_id", None)
-        if content is None:
-            self.write_json({
-                "status":"400",
-                "content": content,
-                "data":"No content"
-            })
+        story_id = body.get("story_id", "1001")
+        dimension_num = body.get("dimension_num", 2)
 
 
         self.write_json({
             "status": "200",
-            "dots": demo_data,
+            "dots": get_dots(story_id,dimension_num),
+            "templete_dots": get_templete_dots(story_id, dimension_num)
         })
 
 
@@ -317,51 +315,3 @@ demo_data = [('空瓶', [-537460098250.43677, 579663242779.7759]),
  ('JOJO', [-7724193207.494403, 16092069182.280006]),
  ('微笑貓貓', [-97400730.24000004, 353077647.1200001]),
  ('Susuj', [316531.90799999976, -2025804.2111999982])]
-
-# class cleanHandler(APIHandlerBase):
-#
-#     async def post(self):
-#         """
-#         ---
-#         tags:
-#         - tool
-#         summary: 文字清理
-#         description: 文字清理
-#         produces:
-#         - application/json
-#         parameters:
-#         -   in: body
-#             name: body
-#             description: post data
-#             required: true
-#             schema:
-#                 type: object
-#                 properties:
-#                     content:
-#                         type: string
-#                         default: "一些中 文內 容<br>"
-#
-#         responses:
-#             200:
-#               description: test
-#         """
-#         body = json.loads(self.request.body)
-#         content = body.get("content", None)
-#         if content is None:
-#             self.write_json({
-#                 "status":"400",
-#                 "content": content,
-#                 "data":"No content"
-#             })
-#
-#         #
-#         content_formated = content[:]
-#         for del_script in [del_space,del_html_tags]:
-#             content_formated = del_script(content_formated)
-#
-#         #
-#         self.write_json({
-#             "status": "200",
-#             "content": content,
-#             "clean": content_formated
-#         })
