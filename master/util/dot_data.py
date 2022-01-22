@@ -1,9 +1,9 @@
 import json
 user_data, story_data = {}, {}
-with open("./dots_vec.json") as json_file:
+with open("./util/dots_vec.json") as json_file:
     user_data = json.load(json_file)
 
-with open("./story_data.json") as json_file:
+with open("./util/story_data.json") as json_file:
     story_data = json.load(json_file)
 
 def reduce_dimansion(arr, tarage_dimansion=1):
