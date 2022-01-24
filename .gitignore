@@ -10,3 +10,4 @@ venv/
 **/myers_model.pt
 **/mbti_model.pt
 test/
+./mongo_db_docker/db/*

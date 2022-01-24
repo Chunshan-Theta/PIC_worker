@@ -25,7 +25,9 @@ services:
         environment:
             MONGO_INITDB_ROOT_USERNAME: voiss
             MONGO_INITDB_ROOT_PASSWORD: voiss
-
+        volumes:
+            - "./mongo_db_docker/configdb:/data/configdb"
+            - "./mongo_db_docker/db:/data/db"
     mongo-express:
         image: mongo-express
         restart: always
