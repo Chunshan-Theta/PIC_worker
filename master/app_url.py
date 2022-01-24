@@ -22,7 +22,7 @@ class Application(tornado.web.Application):
             api_version="1.0.0",
             title="NLU API",
             contact="name@domain",
-            schemes=[proxy_type],
+            schemes=['https', 'http'],
             security_definitions={
                 "ApiKeyAuth": {"type": "apiKey", "in": "header", "name": "X-API-Key"}
             },
